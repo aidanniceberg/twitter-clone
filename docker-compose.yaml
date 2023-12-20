@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_USER: webapp
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3200:3306"
+    volumes:
+      # anything in (or mounted in) /docker-entrypoint-initdb.d in the container
+      # will automatically be executed when the container is created
+      - ./db:/docker-entrypoint-initdb.d/:ro
+  web:
+    build:
+      context: ./backend/
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
