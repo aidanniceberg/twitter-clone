@@ -19,4 +19,13 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
+      - auth
+  auth:
+    build:
+      context: ./auth/
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./auth:/app
+    depends_on:
       - db
