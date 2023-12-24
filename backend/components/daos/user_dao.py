@@ -1,8 +1,8 @@
-from sqlalchemy import insert, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-from typing import Optional
+from typing import List, Optional
 
 from components.models.user import User, UserBasic
 from components.models.orm.followings import FollowingsTbl
@@ -10,6 +10,30 @@ from components.models.orm.user import UserTbl
 from components.db import get_engine
 
 _engine = get_engine()
+
+def get_users(usernames: List[str]) -> List[UserBasic]:
+    """
+    Gets users from the db based on a list of usernames
+
+    :param usernames list of usernames to retrieve
+    :return list of users
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = select(UserTbl).filter(UserTbl.username.in_(usernames))
+            users = session.scalars(stmt).all()
+            return [UserBasic(
+                username=user.username,
+                bio=user.bio,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                created_at=user.created_at,
+                followers=_follower_count(user.username),
+                following=_following_count(user.username),
+            ) for user in users]
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving a user from the db: {e}")
+
 
 def get_user(username: str) -> Optional[User]:
     """
