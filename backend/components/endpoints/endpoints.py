@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from components.endpoints.test import test
+from components.endpoints.users import user
 
 app = FastAPI()
 
 # include routers
-app.include_router(test)
+app.include_router(user)
