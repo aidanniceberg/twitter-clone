@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 
+from components.constants import ACCESS_TOKEN_KEY, ACCESS_TOKEN_EXPIRES
 from components.models.token import Token
 from components.models.users import AuthUser, User
 from components.services import auth_service
@@ -8,7 +9,7 @@ from components.utils.exceptions import CredentialsException, ExistsException
 app = FastAPI()
 
 @app.post("/token")
-def token(user: User):
+def token(user: User, response: Response):
     """
     Authenticates a given user
 
@@ -17,7 +18,13 @@ def token(user: User):
     :return access token
     """
     try:
-        return auth_service.fetch_token(user)
+        token = auth_service.fetch_token(user)
+        response.set_cookie(
+           key=ACCESS_TOKEN_KEY,
+           value=token.get('access_token'),
+           expires=ACCESS_TOKEN_EXPIRES,
+        )
+        return token
     except CredentialsException as e:
         raise HTTPException(status_code=401, detail=str(e))
     except Exception as e:
