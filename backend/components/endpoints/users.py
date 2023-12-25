@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Response
 from typing import Annotated, List
 
 from components.constants import ACCESS_TOKEN_KEY, ACCESS_TOKEN_EXPIRES
+from components.models.enum.sort_by import SortBy
 from components.models.post import Post
 from components.models.user import AuthUser, User, UserBasic, UserToCreate
 from components.services import auth_service, post_service, user_service
@@ -74,5 +75,14 @@ def unfollow(username: str, followee: Annotated[str, Body()], auth: AuthDep) -> 
 def get_post_by_user(username: str, auth: AuthDep) -> List[Post]:
     try:
         return post_service.get_posts_by_user(username)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@user.get("/{username}/feed")
+def get_feed(username: str, auth: AuthDep, sort: SortBy = SortBy.MOST_RECENT) -> List[Post]:
+    if username != auth.username:
+        raise HTTPException(status_code=403, detail="Cannot fetch feed for this user")
+    try:
+        return post_service.get_feed(username, sort)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

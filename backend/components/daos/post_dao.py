@@ -84,18 +84,20 @@ def get_responses(parent_id: int) -> List[Post]:
     except Exception as e:
         raise Exception(f"An error occurred retrieving a response from the db: {e}")
 
-def get_post_ids_by_user(username: str, posts: bool = True, responses: bool = False) -> List[int]:
+def get_post_ids_by_users(usernames: Optional[List[str]] = None, posts: bool = True, responses: bool = False) -> List[int]:
     """
-    Given a username, gets the ids of all posts made by that user
+    Given a list of usernames, gets the ids of all posts made by that user
 
-    :param username username to retrieve ids for
+    :param usernames list of usernames to retrieve ids for (none if getting all posts)
     :param posts true if the ids should include posts
     :param responses true if the ids should include responses
     :return list of post ids
     """
     try:
         with Session(_engine) as session:
-            stmt = select(PostTbl).where(PostTbl.author == username)
+            stmt = select(PostTbl)
+            if usernames is not None:
+                stmt = stmt.filter(PostTbl.author.in_(usernames))
             if posts and not responses:
                 stmt = stmt.where(PostTbl.response_to == None)
             elif responses and not posts:
