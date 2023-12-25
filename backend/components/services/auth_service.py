@@ -1,4 +1,4 @@
-from fastapi import Request, HTTPException
+from fastapi import Request, HTTPException, Response
 
 from components.utils.exceptions import CredentialsException
 from components.models.user import AuthUser

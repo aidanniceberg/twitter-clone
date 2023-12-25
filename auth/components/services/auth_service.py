@@ -2,26 +2,26 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+from components.constants import ACCESS_TOKEN_EXPIRES
 from components.daos import auth_dao
 from components.models.token import Token
 from components.models.users import AuthUser, DBUser, User
 from components.utils.exceptions import CredentialsException, ExistsException
 
-ACCESS_TOKEN_EXP = 30
 ALGORITHM = "HS256"
 ENCRYPTION_KEY = "75f078f269bf0f707fdb757ec6c35d756608745e2332752f3b291ccb78f3c35e"
 
 _pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def _create_access_token(username: str, exp: int = 10) -> str:
+def _create_access_token(username: str, exp: int = 1800) -> str:
     """
     Given a username and expiration time, creates an access token
 
     :param username: user to create token for
-    :param exp: number of minutes the token should stay valid for
+    :param exp: number of seconds the token should stay valid for
     :return access token
     """
-    expires_at = datetime.utcnow() + timedelta(minutes=exp)
+    expires_at = datetime.utcnow() + timedelta(seconds=exp)
     data = {"sub": username, "exp": expires_at}
     return jwt.encode(data, ENCRYPTION_KEY, algorithm=ALGORITHM)
 
@@ -38,7 +38,7 @@ def fetch_token(user: User) -> Token:
         raise CredentialsException("Username does not exist")
     if not _pwd_context.verify(user.password, db_user.hashed_password):
         raise CredentialsException("Invalid password")
-    access_token = _create_access_token(username=user.username, exp=ACCESS_TOKEN_EXP)
+    access_token = _create_access_token(username=user.username, exp=ACCESS_TOKEN_EXPIRES)
     return Token(access_token=access_token, token_type="bearer")
 
 def get_user(token: str) -> AuthUser:

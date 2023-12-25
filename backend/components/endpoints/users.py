@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Response
 from typing import Annotated, List
 
-from components.models.post import Post, PostBasic
+from components.constants import ACCESS_TOKEN_KEY, ACCESS_TOKEN_EXPIRES
+from components.models.post import Post
 from components.models.user import AuthUser, User, UserBasic, UserToCreate
 from components.services import auth_service, post_service, user_service
 
@@ -10,10 +11,15 @@ user = APIRouter(prefix='/users', tags=['User'])
 AuthDep = Annotated[AuthUser, Depends(auth_service.get_current_user)]
 
 @user.post("")
-def create_user(user: UserToCreate):
+def create_user(user: UserToCreate, response: Response):
     try:
         token = auth_service.create_user(user.username, user.password)
         user_service.create_user(user)
+        response.set_cookie(
+           key=ACCESS_TOKEN_KEY,
+           value=token.get('access_token'),
+           expires=ACCESS_TOKEN_EXPIRES,
+        )
         return token
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
