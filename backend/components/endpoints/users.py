@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from typing import Annotated, List
 
+from components.models.post import Post, PostBasic
 from components.models.user import AuthUser, User, UserBasic, UserToCreate
-from components.services import auth_service ,user_service
+from components.services import auth_service, post_service, user_service
 
 user = APIRouter(prefix='/users', tags=['User'])
 
@@ -60,5 +61,12 @@ def unfollow(username: str, followee: Annotated[str, Body()], auth: AuthDep) -> 
         raise HTTPException(status_code=403, detail="Cannot change follower info for this user")
     try:
         return user_service.remove_following(username, followee)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@user.get("/{username}/posts")
+def get_post_by_user(username: str, auth: AuthDep) -> List[Post]:
+    try:
+        return post_service.get_posts_by_user(username)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
