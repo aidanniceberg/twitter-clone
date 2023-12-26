@@ -1,5 +1,7 @@
+import './style.css';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext';
+import StandardLayout from './StandardLayout';
 
 function HomePage() {
     const authContext = useContext(AuthContext);
@@ -10,9 +12,9 @@ function HomePage() {
     }, [authContext.isLoading]);
 
     return (
-        <>
-            <h1>{!isLoading && authContext.user?.username}</h1>
-        </>
+        <StandardLayout active='home' title='Home'>
+            <p>placeholder</p>
+        </StandardLayout>
     )
 }
 
