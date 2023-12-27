@@ -28,12 +28,12 @@ function AuthContextProvider({ children }: AuthContextProps) {
         const token = getCookie('token');
         if (token === null) throw new Error("Token not found");
         setToken(token);
-        setIsAuthenticated(true);
         getAuthContextUser(token)
             .then((response) => {
-                setUser(response)
+                setUser(response);
+                setIsAuthenticated(true);
+                setIsLoading(false);
             });
-        setIsLoading(false);
     }, []);
 
     return (

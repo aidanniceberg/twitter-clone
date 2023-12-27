@@ -14,7 +14,7 @@ function StandardLayout({title, active, children}: StandardLayoutProps) {
         <>
             <div className='standard-layout-container'>
                 <NavPanel active={active}/>
-                <div className='standard-layout-panel'>
+                <div className='standard-layout-panel standard-layout-content-panel'>
                     <h1 className='standard-layout-header'>{title}</h1>
                     {children}
                 </div>

@@ -7,3 +7,26 @@ export const getCookie = (name: string): string | null => {
     }
     return null;
 }
+
+export const dateToAgo = (d: Date): string => {
+    const t = Date.now() - d.getTime();
+    const seconds = Math.floor(t / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const years = Math.floor(weeks / 52);
+
+    if (years > 0) {
+        return `${years} ${years > 1 ? 'years' : 'year'} ago`;
+    } else if (weeks > 0) {
+        return `${weeks} ${weeks > 1 ? 'weeks' : 'week'} ago`;
+    } else if (days > 0) {
+        return `${days} ${days > 1 ? 'days' : 'day'} ago`;
+    } else if (hours > 0) {
+        return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`;
+    } else if (minutes > 0) {
+        return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`;
+    }
+    return 'now';
+}
