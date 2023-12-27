@@ -17,3 +17,15 @@ export type Post = {
     response_to?: number;
     responses?: Post[];
 }
+
+export type User = {
+    username: string;
+    email?: string;
+    birthday?: string;
+    bio: string;
+    first_name: string;
+    last_name: string;
+    created_at: Date;
+    followers?: number;
+    following?: number;
+}

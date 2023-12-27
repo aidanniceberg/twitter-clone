@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
+import UserPage from './UserPage';
 import AuthContextProvider from '../AuthContext';
 
 function Router() {
@@ -12,6 +13,7 @@ function Router() {
                     <AuthContextProvider>
                         <Routes>
                             <Route path="/home" element={<HomePage />} />
+                            <Route path="/users/:username" element={<UserPage />}/>
                             <Route path="*" element={<h1>Page Not Found</h1>} />
                         </Routes>
                     </AuthContextProvider>
