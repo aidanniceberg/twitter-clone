@@ -21,6 +21,9 @@ def get_followings(username: str) -> List[UserBasic]:
     following_usernames = followings_dao.get_followings(username)
     return user_dao.get_users(following_usernames)
 
+def user_follows(username: str, followee: str) -> bool:
+    return followings_dao.user_follows(username, followee)
+
 def add_following(follower: str, followee: str) -> None:
     return followings_dao.add_following(follower, followee)
 

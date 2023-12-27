@@ -53,6 +53,13 @@ def get_followings(username: str, auth: AuthDep) -> List[UserBasic]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@user.get("/{username}/following/{followee}")
+def follows(username: str, followee: str, auth: AuthDep) -> bool:
+    try:
+        return user_service.user_follows(username, followee)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @user.post("/{username}/following")
 def follow(username: str, followee: Annotated[str, Body()], auth: AuthDep) -> None:
     if username != auth.username:

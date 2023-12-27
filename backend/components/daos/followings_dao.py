@@ -48,6 +48,23 @@ def get_followings(username: str) -> List[str]:
     except Exception as e:
         raise Exception(f"An error occurred retrieving followings from the db: {e}")
 
+def user_follows(username: str, followee: str) -> bool:
+    """
+    Given a username and a followee, determines if [username] follows [followee]
+
+    :param username: follower
+    :param followee
+    :return true if user follows
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = (
+                select(FollowingsTbl)
+                .where((FollowingsTbl.follower == username) & (FollowingsTbl.followee == followee))
+            )
+            return len(session.scalars(stmt).all()) > 0
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving followings from the db: {e}")
 
 def add_following(follower: str, followee: str) -> None:
     """
