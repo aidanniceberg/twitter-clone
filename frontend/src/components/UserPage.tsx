@@ -3,17 +3,18 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext';
 import PostDisplay from './PostDisplay';
 import StandardLayout from './StandardLayout';
-import { getProfile, getPosts } from '../services';
+import { getProfile, getPosts, follow, unfollow } from '../services';
 import { Post, User } from '../types';
 import { Link, useParams } from 'react-router-dom';
 import { IoCalendarClearOutline } from "react-icons/io5";
 import { dateToString } from '../utils';
+import FollowButton from './FollowButton';
 
 function UserPage() {
     const authContext = useContext(AuthContext);
 
     const { username } = useParams();
-    
+
     const [profile, setProfile] = useState<User>();
     const [posts, setPosts] = useState<Post[]>();
     const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -29,8 +30,27 @@ function UserPage() {
         getPosts(authContext.token, username)
             .then((response) => {
                 setPosts(response);
-            })
+            });
+        
     }, [authContext, username]);
+
+    const updateFollow = () => {
+        if (!profile) throw new Error("Profile not defined");
+        let newProfile = {...profile};
+        if (newProfile.followers !== undefined) {
+            newProfile.followers++;
+        }
+        setProfile(newProfile);
+    }
+
+    const updateUnfollow = () => {
+        if (!profile) throw new Error("Profile not defined");
+        let newProfile = {...profile};
+        if (newProfile.followers !== undefined) {
+            newProfile.followers--;
+        }
+        setProfile(newProfile);
+    }
 
     return (
         <StandardLayout active={isCurrentUser ? 'profile' : ''} title={`@${username}` ?? 'Error'}>
@@ -46,9 +66,11 @@ function UserPage() {
                     <Link to={`/users/${username}/following`} className='profile-small-text'>Following: {profile?.following}</Link>
                     {
                         isCurrentUser ?
-                        <button className='profile-button'>Edit Profile</button>
+                        <Link className='profile-button' to='/settings'>
+                            <button>Edit Profile</button>
+                        </Link>
                         :
-                        <button className='profile-button button-important'>Follow</button>
+                        <FollowButton profile={username ?? ''} followCallback={updateFollow} unfollowCallback={updateUnfollow}/>
                     }
                 </div>
                 <h2 className='profile-medium-text'>
