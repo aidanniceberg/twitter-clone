@@ -16,6 +16,14 @@ body {
     background-color: #fcfffc;
 }
 
+button {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .auth-title {
     text-align: center;
     font-size: 30px;
@@ -220,12 +228,22 @@ body {
 }
 
 .profile-button {
-    background: #2d3a3a;
     border: 2px solid #2d3a3a;
-    color: #fcfffc;
+    background: #fcfffc;
     font-size: 16px;
     border-radius: 25px;
     padding: 5px 25px;
     transition: 0.1s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.profile-button button {
+    font-size: 16px;
+}
+
+.profile-button-active {
+    background: #2d3a3a !important;
+    color: #fcfffc;
 }

@@ -73,3 +73,47 @@ export const getPosts = (token: string, username: string): Promise<Post[]> => {
             throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
         });
 }
+
+export const getUserFollows = (token: string, username: string, followee: string): Promise<boolean> => {
+    return fetch(`${API_URL}/users/${username}/following/${followee}`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+    })
+        .then((response) => {
+            if (response.ok) return response.json();
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
+
+export const follow = (token: string, username: string, followee: string): Promise<boolean> => {
+    return fetch(`${API_URL}/users/${username}/following`, {
+        method: 'POST',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+        body: followee,
+    })
+        .then((response) => {
+            if (response.ok) return true;
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
+
+export const unfollow = (token: string, username: string, followee: string): Promise<boolean> => {
+    return fetch(`${API_URL}/users/${username}/following`, {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+        body: followee,
+    })
+        .then((response) => {
+            if (response.ok) return true;
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
