@@ -30,3 +30,13 @@ export const dateToAgo = (d: Date): string => {
     }
     return 'now';
 }
+
+export const dateToString = (d: Date): string => {
+    const options: Intl.DateTimeFormatOptions = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      };
+    
+      return d.toLocaleDateString('en-US', options);
+}

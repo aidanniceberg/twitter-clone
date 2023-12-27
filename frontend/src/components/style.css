@@ -186,9 +186,46 @@ body {
     justify-content: space-between;
 }
 
+.post-header-fill {
+    flex: 1;
+    text-align: right;
+}
+
 .post-display-author {
     font-weight: 500;
     margin-bottom: 5px;
     display: block;
     font-size: 20px;
+}
+
+.profile-medium-text {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.profile-small-text {
+    font-weight: 400;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 10px;
+}
+
+.profile-followings-wrapper {
+    display: flex;
+    justify-content: left;
+    gap: 25px;
+    margin: 15px 0;
+}
+
+.profile-button {
+    background: #2d3a3a;
+    border: 2px solid #2d3a3a;
+    color: #fcfffc;
+    font-size: 16px;
+    border-radius: 25px;
+    padding: 5px 25px;
+    transition: 0.1s;
+    cursor: pointer;
 }

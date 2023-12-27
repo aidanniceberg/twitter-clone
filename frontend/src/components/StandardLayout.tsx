@@ -5,11 +5,11 @@ import NavPanel from './NavPanel';
 
 type StandardLayoutProps = {
     title: string;
-    active: string;
+    active?: string;
     children: ReactNode;
 }
 
-function StandardLayout({title, active, children}: StandardLayoutProps) {
+function StandardLayout({title, active = '', children}: StandardLayoutProps) {
     return (
         <>
             <div className='standard-layout-container'>

@@ -2,12 +2,15 @@ import { Link } from 'react-router-dom';
 import { LiaHomeSolid, LiaUser } from "react-icons/lia";
 import { IoIosSearch } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useContext } from 'react';
+import { AuthContext } from '../AuthContext';
 
 type NavProps = {
-    active: string;
+    active?: string;
 }
 
-function NavPanel({ active }: NavProps) {
+function NavPanel({ active = '' }: NavProps) {
+    const authContext = useContext(AuthContext);
 
     const setActive = (target: string): string => {
         return active === target ? 'nav-active' : '';
@@ -23,7 +26,7 @@ function NavPanel({ active }: NavProps) {
                     <Link className={`nav-list-option-link ${setActive('login')}`} to={'/search'}><IoIosSearch />Search</Link>
                 </li>
                 <li>
-                    <Link className={`nav-list-option-link ${setActive('profile')}`} to={'/profile'}><LiaUser />Profile</Link>
+                    <Link className={`nav-list-option-link ${setActive('profile')}`} to={`/users/${authContext?.user?.username}`}><LiaUser />Profile</Link>
                 </li>
                 <li>
                     <Link className={`nav-list-option-link ${setActive('settings')}`} to={'/settings'}>< IoSettingsOutline/>Settings</Link>
