@@ -5,6 +5,7 @@ import UserPage from './UserPage';
 import AuthContextProvider from '../AuthContext';
 import FollowingsPage from './FollowingsPage';
 import FollowersPage from './FollowersPage';
+import SearchPage from './SearchPage';
 
 function Router() {
     return (
@@ -15,6 +16,7 @@ function Router() {
                     <AuthContextProvider>
                         <Routes>
                             <Route path="/home" element={<HomePage />} />
+                            <Route path="/search" element={<SearchPage />} />
                             <Route path="/users/:username" element={<UserPage />}/>
                             <Route path="/users/:username/following" element={<FollowingsPage />}/>
                             <Route path="/users/:username/followers" element={<FollowersPage />}/>

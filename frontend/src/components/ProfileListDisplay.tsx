@@ -19,7 +19,7 @@ function ProfileListDisplay({users}: ProfileListDisplayProps) {
         const lowercaseQuery = query.toLowerCase();
         const values: string[] = [user.username, user.first_name, user.last_name, `${user.first_name} ${user.last_name}`];
         for (const val of values) {
-            if (val.toLowerCase().includes(lowercaseQuery)) {
+            if (val.toLowerCase().startsWith(lowercaseQuery)) {
                 return true;
             }
         }

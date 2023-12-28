@@ -145,3 +145,17 @@ export const getFollowers = (token: string, username: string): Promise<User[]> =
             throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
         });
 }
+
+export const searchUsers = (token: string, query: string): Promise<User[]> => {
+    return fetch(`${API_URL}/users?query=${query}`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+    })
+        .then((response) => {
+            if (response.ok) return response.json();
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}

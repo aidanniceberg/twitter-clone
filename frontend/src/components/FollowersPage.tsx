@@ -10,19 +10,19 @@ import ProfileListDisplay from './ProfileListDisplay';
 function FollowersPage() {
     const authContext = useContext(AuthContext);
     const { username } = useParams();
-    const [followings, setFollowings] = useState<User[]>([]);
+    const [followers, setFollowers] = useState<User[]>([]);
 
     useEffect(() => {
         if (!authContext.isAuthenticated || !authContext.user || !username) return;
         getFollowers(authContext.token, username)
             .then((response) => {
-                setFollowings(response);
+                setFollowers(response);
             })
     }, [authContext]);
 
     return (
-        <StandardLayout active='' title={`@${username}'s followings`}>
-            <ProfileListDisplay users={followings} />
+        <StandardLayout active='' title={`@${username}'s followers`}>
+            <ProfileListDisplay users={followers} />
         </StandardLayout>
     )
 }
