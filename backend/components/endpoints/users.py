@@ -25,6 +25,13 @@ def create_user(user: UserToCreate, response: Response):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@user.get("")
+def search_users(query: str, auth: AuthDep) -> List[UserBasic]:
+    try:
+        return user_service.search_users(query)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @user.get("/me")
 def me(auth: AuthDep) -> User:
     try:
