@@ -40,7 +40,7 @@ def search_users(query: str) -> List[UserBasic]:
     Gets users from the db based on search query
 
     :param query string prefix to match to names
-    :return list of users
+    :return users whose usernames, first, last, or full names start with the query
     """
     try:
         with Session(_engine) as session:
