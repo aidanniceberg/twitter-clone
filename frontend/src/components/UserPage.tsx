@@ -73,7 +73,7 @@ function UserPage() {
                         <FollowButton profile={username ?? ''} followCallback={updateFollow} unfollowCallback={updateUnfollow}/>
                     }
                 </div>
-                <h2 className='profile-medium-text'>
+                <h2 className='profile-medium-text profile-buffer-bottom'>
                     {(posts && posts.length > 0) ? 'Posts' : 'No Posts'}
                 </h2>
                 {posts && posts.map((post) => {

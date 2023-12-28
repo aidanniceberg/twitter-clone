@@ -3,6 +3,8 @@ import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import UserPage from './UserPage';
 import AuthContextProvider from '../AuthContext';
+import FollowingsPage from './FollowingsPage';
+import FollowersPage from './FollowersPage';
 
 function Router() {
     return (
@@ -14,6 +16,8 @@ function Router() {
                         <Routes>
                             <Route path="/home" element={<HomePage />} />
                             <Route path="/users/:username" element={<UserPage />}/>
+                            <Route path="/users/:username/following" element={<FollowingsPage />}/>
+                            <Route path="/users/:username/followers" element={<FollowersPage />}/>
                             <Route path="*" element={<h1>Page Not Found</h1>} />
                         </Routes>
                     </AuthContextProvider>

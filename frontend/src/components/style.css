@@ -180,8 +180,13 @@ button {
 .post-display-wrapper {
     display: block;
     width: 100%;
-    padding: 25px;
+    padding: 20px;
     border-bottom: 1px solid #2d3a3a;
+    transition: 0.1s;
+}
+
+.post-display-wrapper:hover {
+    background: #2d3a3a10;
 }
 
 .post-display-wrapper:last-child {
@@ -218,6 +223,10 @@ button {
     align-items: center;
     margin: 10px 0;
     gap: 10px;
+}
+
+.profile-buffer-bottom {
+    margin-bottom: 10px;
 }
 
 .profile-followings-wrapper {

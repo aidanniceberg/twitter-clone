@@ -117,3 +117,31 @@ export const unfollow = (token: string, username: string, followee: string): Pro
             throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
         });
 }
+
+export const getFollowings = (token: string, username: string): Promise<User[]> => {
+    return fetch(`${API_URL}/users/${username}/following`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+    })
+        .then((response) => {
+            if (response.ok) return response.json();
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
+
+export const getFollowers = (token: string, username: string): Promise<User[]> => {
+    return fetch(`${API_URL}/users/${username}/followers`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+    })
+        .then((response) => {
+            if (response.ok) return response.json();
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
