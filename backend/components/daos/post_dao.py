@@ -104,6 +104,7 @@ def get_post_ids_by_users(usernames: Optional[List[str]] = None, posts: bool = T
                 stmt = stmt.where(PostTbl.response_to != None)
             elif not posts and not responses:
                 raise Exception("Posts or responses must be included")
+            stmt = stmt.order_by(PostTbl.created_at.desc())
             posts = session.scalars(stmt).all()
             return [post.id for post in posts]
     except Exception as e:

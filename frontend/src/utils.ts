@@ -9,7 +9,8 @@ export const getCookie = (name: string): string | null => {
 }
 
 export const dateToAgo = (d: Date): string => {
-    const t = Date.now() - d.getTime();
+    const utcNowStr = new Date().toLocaleString('en-US', {timeZone: 'UTC'})
+    const t = new Date(utcNowStr).getTime() - d.getTime();
     const seconds = Math.floor(t / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);

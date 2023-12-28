@@ -31,9 +31,11 @@ function NavPanel({ active = '' }: NavProps) {
                 <li>
                     <Link className={`nav-list-option-link ${setActive('settings')}`} to={'/settings'}>< IoSettingsOutline/>Settings</Link>
                 </li>
-                <li className='nav-list-option-button-wrapper'>
-                    <Link className={`nav-list-option-link nav-list-option-button`} to={'/post'}>Post</Link>
-                </li>
+                {active !== 'post' &&
+                    <li className='nav-list-option-button-wrapper'>
+                        <Link className={`nav-list-option-link nav-list-option-button`} to={'/post'}>Post</Link>
+                    </li>
+                }
             </ul>
         </div>
     )

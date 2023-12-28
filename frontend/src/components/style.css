@@ -63,6 +63,7 @@ button {
     display: block;
     box-sizing: border-box;
     transition: 1s;
+    background: transparent;
 }
 
 .label-invalid {
@@ -92,6 +93,16 @@ button {
     background: none;
     color: #2d3a3a;
     transition: 0.1s;
+}
+
+.submit-inactive {
+    pointer-events: none;
+}
+
+.submit-post {
+    width: 50%;
+    border-radius: 50px;
+    font-size: 20px;
 }
 
 .standard-layout-container {
@@ -285,4 +296,20 @@ button {
 
 .search-bar-submit svg path {
     color: #fcfffc !important;
+}
+
+.post-form-wrapper {
+    text-align: center;
+}
+
+.form-textarea {
+    box-sizing: border-box;
+    background: transparent;
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+    font-family: inherit;
+    outline: none;
+    font-size: 18px;
+    min-height: 100px;
 }

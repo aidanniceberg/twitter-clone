@@ -7,7 +7,7 @@ type ProfileDisplayProps = {
 
 function ProfileDisplay({user}: ProfileDisplayProps) {
     return (
-        <Link key={user.username} to={`/users/${user.username}`} className='post-display-wrapper'>
+        <Link to={`/users/${user.username}`} className='post-display-wrapper'>
             <div className='profile-medium-text'>@{user.username} ({user.first_name} {user.last_name})</div>
         </Link>
     )
