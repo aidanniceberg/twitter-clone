@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
@@ -21,6 +21,37 @@ def get_users(usernames: List[str]) -> List[UserBasic]:
     try:
         with Session(_engine) as session:
             stmt = select(UserTbl).filter(UserTbl.username.in_(usernames))
+            users = session.scalars(stmt).all()
+            return [UserBasic(
+                username=user.username,
+                bio=user.bio,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                created_at=user.created_at,
+                followers=_follower_count(user.username),
+                following=_following_count(user.username),
+            ) for user in users]
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving a user from the db: {e}")
+
+
+def search_users(query: str) -> List[UserBasic]:
+    """
+    Gets users from the db based on search query
+
+    :param query string prefix to match to names
+    :return users whose usernames, first, last, or full names start with the query
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = (
+                select(UserTbl)
+                .where(
+                    (UserTbl.username.ilike(f"{query}%")) |
+                    (UserTbl.last_name.ilike(f"{query}%")) |
+                    (func.concat(UserTbl.first_name, ' ', UserTbl.last_name).ilike(f"{query}%"))
+                )
+            )
             users = session.scalars(stmt).all()
             return [UserBasic(
                 username=user.username,
