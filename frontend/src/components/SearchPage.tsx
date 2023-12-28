@@ -35,7 +35,7 @@ function HomePage() {
             {
                 users.length > 0 ?
                 users.map((user) => {
-                    return <ProfileDisplay user={user} />
+                    return <ProfileDisplay key={user.username} user={user} />
                 })
                 :
                 <p className='profile-medium-text'>No results</p>

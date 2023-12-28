@@ -19,7 +19,8 @@ const standardPost = (url: string, token: string, body: string = ""): Promise<bo
     return fetch(url, {
         method: 'POST',
         headers: {
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json",
         },
         credentials: "include",
         body: body,
@@ -68,7 +69,7 @@ export const getUserFollows = (token: string, username: string, followee: string
 }
 
 export const follow = (token: string, username: string, followee: string): Promise<boolean> => {
-    return standardPost(`${API_URL}/users/${username}/following`, token, followee);
+    return standardPost(`${API_URL}/users/${username}/following`, token, JSON.stringify(followee));
 }
 
 export const unfollow = (token: string, username: string, followee: string): Promise<boolean> => {
@@ -96,4 +97,14 @@ export const getFollowers = (token: string, username: string): Promise<User[]> =
 
 export const searchUsers = (token: string, query: string): Promise<User[]> => {
     return standardGetJSON<User[]>(`${API_URL}/users?query=${query}`, token);
+}
+
+export const createPost = (token: string, author: string, content: string, created_at?: Date, response_to?: number): Promise<boolean> => {
+    const body = {
+        "author": author,
+        "content": content,
+        "created_at": created_at ?? new Date().toISOString(),
+        "response_to": response_to
+    };
+    return standardPost(`${API_URL}/posts`, token, JSON.stringify(body));
 }

@@ -6,6 +6,7 @@ import AuthContextProvider from '../AuthContext';
 import FollowingsPage from './FollowingsPage';
 import FollowersPage from './FollowersPage';
 import SearchPage from './SearchPage';
+import PostPage from './PostPage';
 
 function Router() {
     return (
@@ -20,6 +21,7 @@ function Router() {
                             <Route path="/users/:username" element={<UserPage />}/>
                             <Route path="/users/:username/following" element={<FollowingsPage />}/>
                             <Route path="/users/:username/followers" element={<FollowersPage />}/>
+                            <Route path="/post" element={<PostPage />}/>
                             <Route path="*" element={<h1>Page Not Found</h1>} />
                         </Routes>
                     </AuthContextProvider>

@@ -53,7 +53,7 @@ function UserPage() {
     }
 
     return (
-        <StandardLayout active={isCurrentUser ? 'profile' : ''} title={`@${username}` ?? 'Error'}>
+        <StandardLayout active={isCurrentUser ? 'profile' : ''} title={username ?? 'Error'}>
             <div className='profile-wrapper'>
                 <h2 className='profile-medium-text'>{`${profile?.first_name} ${profile?.last_name}`}</h2>
                 <h3 className='profile-small-text'>
@@ -77,7 +77,7 @@ function UserPage() {
                     {(posts && posts.length > 0) ? 'Posts' : 'No Posts'}
                 </h2>
                 {posts && posts.map((post) => {
-                    return <PostDisplay key={post.id} post={post} showAuthor={false}/>
+                    return <PostDisplay key={post.id} post={post}/>
                 })}
             </div>
         </StandardLayout>
