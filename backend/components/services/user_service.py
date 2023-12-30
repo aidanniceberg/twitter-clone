@@ -1,7 +1,7 @@
 from typing import List
 
 from components.daos import followings_dao, user_dao
-from components.models.user import User, UserBasic
+from components.models.user import User, UserBasic, UserToUpdate
 
 def get_user(username: str) -> User:
     return user_dao.get_user(username)
@@ -12,6 +12,9 @@ def search_users(query: str) -> List[UserBasic]:
 def get_user_basic(username: str) -> UserBasic:
     user = user_dao.get_user(username)
     return user.to_basic() if user else None
+
+def update_user(username: str, info: UserToUpdate) -> None:
+    return user_dao.update_user(username, info)
 
 def create_user(user: User) -> None:
     user_dao.create_user(user)

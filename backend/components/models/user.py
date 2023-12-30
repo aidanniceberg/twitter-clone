@@ -59,3 +59,14 @@ class UserToCreate(BaseModel):
     first_name: str
     last_name: str
     created_at: datetime
+
+
+"""
+Represents a user with information to edit
+"""
+class UserToUpdate(BaseModel):
+    email: Optional[str] = None
+    birthday: Optional[date] = None
+    bio: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None

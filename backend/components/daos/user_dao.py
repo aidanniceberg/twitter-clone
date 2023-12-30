@@ -1,10 +1,10 @@
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 from typing import List, Optional
 
-from components.models.user import User, UserBasic
+from components.models.user import User, UserBasic, UserToUpdate
 from components.models.orm.followings import FollowingsTbl
 from components.models.orm.user import UserTbl
 from components.db import get_engine
@@ -92,6 +92,26 @@ def get_user(username: str) -> Optional[User]:
         return None
     except Exception as e:
         raise Exception(f"An error occurred retrieving a user from the db: {e}")
+
+def update_user(username: str, info: UserToUpdate) -> None:
+    """
+    Given a username and associated user information, updates that user's profile
+
+    :param username user to edit
+    :param info user info
+    """
+    try:
+        with Session(_engine) as session:
+            values = {key: value for key, value in info.dict().items() if value is not None}
+            stmt = (
+                update(UserTbl)
+                .where(UserTbl.username == username)
+                .values(values)
+            )
+            session.execute(stmt)
+            session.commit()
+    except Exception as e:
+        raise Exception(f"An error occurred updating profile information: {e}")
 
 def _follower_count(username: str) -> int:
     """
