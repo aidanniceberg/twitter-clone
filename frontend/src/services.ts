@@ -103,7 +103,7 @@ export const searchUsers = (token: string, query: string): Promise<User[]> => {
     return standardGetJSON<User[]>(`${API_URL}/users?query=${query}`, token);
 }
 
-export const createPost = (token: string, author: string, content: string, created_at?: Date, response_to?: number): Promise<boolean> => {
+export const createPost = (token: string, author: string, content: string, response_to?: number, created_at?: Date): Promise<boolean> => {
     const body = {
         "author": author,
         "content": content,
@@ -133,4 +133,8 @@ export const editProfile = (token: string, first_name: string | null = null, las
             if (response.ok) return true;
             throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
         });
+}
+
+export const getPost = (token: string, id: number): Promise<Post> => {
+    return standardGetJSON(`${API_URL}/posts/${id}`, token);
 }

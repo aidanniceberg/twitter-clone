@@ -194,6 +194,7 @@ button {
     padding: 20px;
     border-bottom: 1px solid #2d3a3a;
     transition: 0.1s;
+    display: flex;
 }
 
 .post-display-wrapper:hover {
@@ -202,6 +203,14 @@ button {
 
 .post-display-wrapper:last-child {
     border-bottom: none;
+}
+
+.post-display-content-wrapper {
+    flex: 1;
+}
+
+.post-response-buffer {
+    width: 25px;
 }
 
 .post-display-header {
@@ -337,4 +346,20 @@ button {
 
 .date-input {
     font-family: inherit;
+}
+
+.comment-form-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-form-wrapper input {
+    margin: 0px !important;
+}
+
+.comment-submit {
+    flex: 1;
+    margin: 0px;
 }

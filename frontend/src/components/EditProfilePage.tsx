@@ -1,8 +1,6 @@
 import './style.css';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext';
-import { IoIosSearch } from "react-icons/io";
-import ProfileDisplay from './ProfileDisplay';
 import StandardLayout from './StandardLayout';
 import { useParams } from 'react-router-dom';
 import { getCurrentUser, editProfile } from '../services';
@@ -29,7 +27,7 @@ function EditProfilePage() {
         if (last_name === user?.last_name) last_name = null;
         if (email === user?.email) email = null;
         if (bio === user?.bio) bio = null;
-        if (birthday === user?.birthday?.toString()) bio = null;
+        if (birthday === user?.birthday?.toString()) birthday = null;
 
         editProfile(authContext.token, first_name, last_name, email, birthday, bio)
             .then(() => {
