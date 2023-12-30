@@ -21,7 +21,7 @@ export type Post = {
 export type User = {
     username: string;
     email?: string;
-    birthday?: string;
+    birthday?: Date;
     bio: string;
     first_name: string;
     last_name: string;

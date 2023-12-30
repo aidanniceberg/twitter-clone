@@ -113,7 +113,7 @@ export const createPost = (token: string, author: string, content: string, creat
     return standardPost(`${API_URL}/posts`, token, JSON.stringify(body));
 }
 
-export const editProfile = (token: string, first_name: string | null = null, last_name: string | null = null, email: string | null = null, bio: string | null = null): Promise<boolean> => {
+export const editProfile = (token: string, first_name: string | null = null, last_name: string | null = null, email: string | null = null, birthday: string | null = null, bio: string | null = null): Promise<boolean> => {
     return fetch(`${API_URL}/users/me`, {
         method: 'PUT',
         headers: {
@@ -125,6 +125,7 @@ export const editProfile = (token: string, first_name: string | null = null, las
             "first_name": first_name,
             "last_name": last_name,
             "email": email,
+            "birthday": birthday,
             "bio": bio
         })
     })

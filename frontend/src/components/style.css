@@ -334,3 +334,7 @@ button {
     flex: 1;
     min-width: 150px;
 }
+
+.date-input {
+    font-family: inherit;
+}

@@ -22,14 +22,16 @@ function EditProfilePage() {
         let first_name = data.get('first_name')?.toString() ?? null;
         let last_name = data.get('last_name')?.toString() ?? null;
         let email = data.get('email')?.toString() ?? null;
+        let birthday = data.get('birthday')?.toString() ?? null;
         let bio = data.get('bio')?.toString() ?? null;
 
         if (first_name === user?.first_name) first_name = null;
         if (last_name === user?.last_name) last_name = null;
         if (email === user?.email) email = null;
         if (bio === user?.bio) bio = null;
+        if (birthday === user?.birthday?.toString()) bio = null;
 
-        editProfile(authContext.token, first_name, last_name, email, bio)
+        editProfile(authContext.token, first_name, last_name, email, birthday, bio)
             .then(() => {
                 window.location.href = `http://localhost:3000/users/${authContext.user?.username}`;
             })
@@ -64,8 +66,16 @@ function EditProfilePage() {
                     </div>
                 </div>
 
-                <label className='auth-label'>Email</label>
-                <input className='auth-text-input' type='text' name='email' placeholder='Email' defaultValue={user?.email} />
+                <div className='edit-profile-flex-row'>
+                    <div>
+                        <label className='auth-label'>Email</label>
+                        <input className='auth-text-input' type='text' name='email' placeholder='Email' defaultValue={user?.email} />
+                    </div>
+                    <div>
+                        <label className='auth-label'>Birthday</label>
+                        <input className='auth-text-input date-input' type='date' name='birthday' defaultValue={user?.birthday?.toString()} />
+                    </div>
+                </div>
 
                 <label className='auth-label'>Bio</label>
                 <textarea className='form-textarea edit-profile-textarea' name='bio' placeholder='Bio' defaultValue={user?.bio}></textarea>
