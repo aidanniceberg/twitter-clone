@@ -4,7 +4,7 @@ from typing import Annotated, List
 from components.constants import ACCESS_TOKEN_KEY, ACCESS_TOKEN_EXPIRES
 from components.models.enum.sort_by import SortBy
 from components.models.post import Post
-from components.models.user import AuthUser, User, UserBasic, UserToCreate
+from components.models.user import AuthUser, User, UserBasic, UserToCreate, UserToUpdate
 from components.services import auth_service, post_service, user_service
 
 user = APIRouter(prefix='/users', tags=['User'])
@@ -36,6 +36,13 @@ def search_users(query: str, auth: AuthDep) -> List[UserBasic]:
 def me(auth: AuthDep) -> User:
     try:
         return user_service.get_user(auth.username)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@user.put("/me")
+def update_user(info: UserToUpdate, auth: AuthDep) -> None:
+    try:
+        return user_service.update_user(auth.username, info)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
