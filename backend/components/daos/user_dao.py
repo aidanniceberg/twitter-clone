@@ -103,6 +103,8 @@ def update_user(username: str, info: UserToUpdate) -> None:
     try:
         with Session(_engine) as session:
             values = {key: value for key, value in info.dict().items() if value is not None}
+            if len(values) == 0:
+                return
             stmt = (
                 update(UserTbl)
                 .where(UserTbl.username == username)

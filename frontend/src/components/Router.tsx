@@ -3,6 +3,7 @@ import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import UserPage from './UserPage';
 import AuthContextProvider from '../AuthContext';
+import EditProfilePage from './EditProfilePage';
 import FollowingsPage from './FollowingsPage';
 import FollowersPage from './FollowersPage';
 import SearchPage from './SearchPage';
@@ -19,6 +20,7 @@ function Router() {
                             <Route path="/home" element={<HomePage />} />
                             <Route path="/search" element={<SearchPage />} />
                             <Route path="/users/:username" element={<UserPage />}/>
+                            <Route path="/users/:username/edit" element={<EditProfilePage />}/>
                             <Route path="/users/:username/following" element={<FollowingsPage />}/>
                             <Route path="/users/:username/followers" element={<FollowersPage />}/>
                             <Route path="/post" element={<PostPage />}/>

@@ -52,6 +52,10 @@ export const getAuthContextUser = (token: string): Promise<AuthContextUser> => {
     return standardGetJSON<AuthContextUser>(`${API_URL}/users/me`, token);
 }
 
+export const getCurrentUser = (token: string): Promise<User> => {
+    return standardGetJSON<User>(`${API_URL}/users/me`, token);
+}
+
 export const getFeed = (token: string, username: string, sort: SortBy = SortBy.MOST_RECENT): Promise<Post[]> => {
     return standardGetJSON<Post[]>(`${API_URL}/users/${username}/feed`, token);
 }
@@ -107,4 +111,25 @@ export const createPost = (token: string, author: string, content: string, creat
         "response_to": response_to
     };
     return standardPost(`${API_URL}/posts`, token, JSON.stringify(body));
+}
+
+export const editProfile = (token: string, first_name: string | null = null, last_name: string | null = null, email: string | null = null, bio: string | null = null): Promise<boolean> => {
+    return fetch(`${API_URL}/users/me`, {
+        method: 'PUT',
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "bio": bio
+        })
+    })
+        .then((response) => {
+            if (response.ok) return true;
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
 }
