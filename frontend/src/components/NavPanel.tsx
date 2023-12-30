@@ -23,7 +23,7 @@ function NavPanel({ active = '' }: NavProps) {
                     <Link className={`nav-list-option-link ${setActive('home')}`} to={'/home'}><LiaHomeSolid />Home</Link>
                 </li>
                 <li>
-                    <Link className={`nav-list-option-link ${setActive('login')}`} to={'/search'}><IoIosSearch />Search</Link>
+                    <Link className={`nav-list-option-link ${setActive('search')}`} to={'/search'}><IoIosSearch />Search</Link>
                 </li>
                 <li>
                     <Link className={`nav-list-option-link ${setActive('profile')}`} to={`/users/${authContext?.user?.username}`}><LiaUser />Profile</Link>

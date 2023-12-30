@@ -66,7 +66,7 @@ function UserPage() {
                     <Link to={`/users/${username}/following`} className='profile-small-text'>Following: {profile?.following}</Link>
                     {
                         isCurrentUser ?
-                        <Link className='profile-button' to='/settings'>
+                        <Link className='profile-button' to={`/users/${username}/edit`}>
                             <button>Edit Profile</button>
                         </Link>
                         :

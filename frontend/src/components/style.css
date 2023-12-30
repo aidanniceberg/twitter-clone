@@ -280,7 +280,7 @@ button {
 }
 
 .search-bar-submit {
-    color: red;
+    color: #fcfffc;
     padding: 5px;
     background: #2d3a3a;
     border-radius: 10px;
@@ -312,4 +312,29 @@ button {
     outline: none;
     font-size: 18px;
     min-height: 100px;
+    border-radius: 10px;
+}
+
+.edit-profile-textarea {
+    font-size: 14px !important;
+    margin-top: 5px;
+}
+
+.submit-edit-profile {
+    width: 50%;
+}
+
+.edit-profile-flex-row {
+    display: flex;
+    gap: 0 25px;
+    flex-wrap: wrap;
+}
+
+.edit-profile-flex-row div {
+    flex: 1;
+    min-width: 150px;
+}
+
+.date-input {
+    font-family: inherit;
 }
