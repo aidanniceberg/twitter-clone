@@ -13,6 +13,7 @@ function EditProfilePage() {
 
     const { username } = useParams();
 
+    const [authorized, setAuthorized] = useState(false);
     const [user, setUser] = useState<User>();
 
     const updateProfile = (event: FormEvent<HTMLFormElement>) => {
@@ -38,8 +39,10 @@ function EditProfilePage() {
     useEffect(() => {
         if (!authContext.isAuthenticated || !authContext.user) return;
         if (username !== authContext.user.username) {
-            throw new Error("Cannot edit this profile");
+            setAuthorized(false);
+            return;
         }
+        setAuthorized(true);
         getCurrentUser(authContext.token)
             .then((response) => {
                 setUser(response);
@@ -47,6 +50,7 @@ function EditProfilePage() {
     }, [authContext]);
 
     return (
+        authorized ?
         <StandardLayout active='' title='Edit Profile'>
             <form className='post-form-wrapper' onSubmit={updateProfile}>
                 <div className='edit-profile-flex-row'>
@@ -69,6 +73,8 @@ function EditProfilePage() {
                 <button type='submit' className='submit submit-edit-profile'>Save</button>
             </form>
         </StandardLayout>
+        :
+        <h1>Cannot edit page</h1>
     )
 }
 
