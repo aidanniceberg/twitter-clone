@@ -24,6 +24,21 @@ button {
     cursor: pointer;
 }
 
+#loading {
+    font-size: 50px;
+    width: 100%;
+    text-align: center;
+    /* Apply the rotation animation */
+    animation: rotateAnimation 2s infinite linear;
+}
+
+@keyframes rotateAnimation {
+    /* Set the final rotation angle */
+    to {
+      transform: rotate(360deg);
+    }
+}
+
 .auth-title {
     text-align: center;
     font-size: 30px;

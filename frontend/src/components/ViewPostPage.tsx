@@ -7,13 +7,14 @@ import { getPost, createPost } from '../services';
 import { Post } from '../types';
 import PostDisplay from './PostDisplay';
 
-function EditProfilePage() {
+function ViewPostPage() {
     const authContext = useContext(AuthContext);
 
     const { id } = useParams();
 
     const [post, setPost] = useState<Post>();
     const [content, setContent] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     const updateContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
@@ -35,23 +36,21 @@ function EditProfilePage() {
         getPost(authContext.token, Number(id))
             .then((response) => {
                 setPost(response);
+                setIsLoading(false);
             })
     }, [authContext]);
 
     return (
-        post ?
-        <StandardLayout active='' title='View Post'>
+        <StandardLayout active='' title='View Post' isLoading={isLoading}>
             <div>
-                <PostDisplay key={post.id} post={post} showChildren={true}/>
+                {post && <PostDisplay key={post.id} post={post} showChildren={true}/>}
             </div>
             <form className='comment-form-wrapper' onSubmit={comment}>
                 <input className='auth-text-input' type='text' name='comment' placeholder='Comment' onChange={updateContent}/>
                 <button type='submit' className='submit comment-submit'>Comment</button>
             </form>
         </StandardLayout>
-        :
-        <h1>An error occurred retrieving the post</h1>
     )
 }
 
-export default EditProfilePage;
+export default ViewPostPage;
