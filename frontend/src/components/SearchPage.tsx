@@ -7,6 +7,7 @@ import StandardLayout from './StandardLayout';
 import { useSearchParams } from 'react-router-dom';
 import { searchUsers } from '../services';
 import { User } from '../types';
+import Loading from './Loading';
 
 function HomePage() {
     const authContext = useContext(AuthContext);
@@ -15,6 +16,7 @@ function HomePage() {
     const query = params.get('query');
 
     const [users, setUsers] = useState<User[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!authContext.isAuthenticated || !authContext.user) return;
@@ -22,7 +24,10 @@ function HomePage() {
             searchUsers(authContext.token, query)
                 .then((response) => {
                     setUsers(response);
+                    setIsLoading(false);
                 })
+        } else {
+            setIsLoading(false);
         }
     }, [authContext]);
 
@@ -33,6 +38,9 @@ function HomePage() {
                 <button type='submit' className='search-bar-submit'><IoIosSearch /></button>
             </form>
             {
+                isLoading ?
+                <Loading />
+                :
                 users.length > 0 ?
                 users.map((user) => {
                     return <ProfileDisplay key={user.username} user={user} />

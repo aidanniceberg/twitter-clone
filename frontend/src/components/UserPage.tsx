@@ -18,6 +18,7 @@ function UserPage() {
     const [profile, setProfile] = useState<User>();
     const [posts, setPosts] = useState<Post[]>();
     const [isCurrentUser, setIsCurrentUser] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!username) throw new Error('Username not found');
@@ -30,6 +31,7 @@ function UserPage() {
         getPosts(authContext.token, username)
             .then((response) => {
                 setPosts(response);
+                setIsLoading(false);
             });
         
     }, [authContext, username]);
@@ -53,7 +55,7 @@ function UserPage() {
     }
 
     return (
-        <StandardLayout active={isCurrentUser ? 'profile' : ''} title={username ?? 'Error'}>
+        <StandardLayout active={isCurrentUser ? 'profile' : ''} title={username ?? 'Error'} isLoading={isLoading}>
             <div className='profile-wrapper'>
                 <h2 className='profile-medium-text'>{`${profile?.first_name} ${profile?.last_name}`}</h2>
                 <h3 className='profile-small-text'>
