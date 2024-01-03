@@ -32,3 +32,13 @@ CREATE TABLE IF NOT EXISTS post
     FOREIGN KEY (author) REFERENCES user(username),
     FOREIGN KEY (response_to) REFERENCES post(id)
 );
+
+CREATE TABLE IF NOT EXISTS post_like
+(
+    post_id INTEGER NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    liked_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (post_id, username),
+    FOREIGN KEY (post_id) REFERENCES post(id),
+    FOREIGN KEY (username) REFERENCES user(username)
+);
