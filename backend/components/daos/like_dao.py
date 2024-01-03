@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import delete, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from typing import List
@@ -26,6 +26,24 @@ def get_likes(id: int) -> List[str]:
             return session.scalars(stmt).all()
     except IntegrityError as e:
         raise NotFoundException("Post or like not found: {e}")
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving likes from the db: {e}")
+
+def user_likes(id: int, username: str) -> bool:
+    """
+    Given a post id and a username, determines if that user has liked the post
+
+    :param id: post id
+    :param username user
+    :return true if user has liked the post
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = (
+                select(func.count(PostLikeTbl.username))
+                .where((PostLikeTbl.post_id == id) & (PostLikeTbl.username == username))
+            )
+            return session.execute(stmt).scalar() > 0
     except Exception as e:
         raise Exception(f"An error occurred retrieving likes from the db: {e}")
 

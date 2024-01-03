@@ -16,6 +16,7 @@ export type Post = {
     created_at?: Date;
     response_to?: number;
     responses?: Post[];
+    likes: number;
 }
 
 export type User = {

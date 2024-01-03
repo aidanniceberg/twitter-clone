@@ -204,12 +204,12 @@ button {
 }
 
 .post-display-wrapper {
-    display: block;
     width: 100%;
     padding: 20px;
     border-bottom: 1px solid #2d3a3a;
     transition: 0.1s;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .post-display-wrapper:hover {
@@ -218,6 +218,17 @@ button {
 
 .post-display-wrapper:last-child {
     border-bottom: none;
+}
+
+.post-meta-wrapper {
+    margin: 10px 10px 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.flex-break {
+    flex-basis: 100%;
+    height: 0;
 }
 
 .post-display-content-wrapper {
@@ -377,4 +388,14 @@ button {
 .comment-submit {
     flex: 1;
     margin: 0px;
+}
+
+.flex-vertical-align {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-display-wrapper {
+    cursor: pointer;
 }

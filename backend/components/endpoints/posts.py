@@ -38,6 +38,13 @@ def get_likes(id: int, auth: AuthDep) -> List[UserBasic]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@post.get("/{id}/likes/{username}")
+def user_likes(id: int, username: str, auth: AuthDep) -> bool:
+    try:
+        return like_service.user_likes(id, username)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @post.post("/{id}/likes")
 def like(id: int, auth: AuthDep) -> None:
     try:
