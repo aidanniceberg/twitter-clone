@@ -9,6 +9,7 @@ import FollowersPage from './FollowersPage';
 import SearchPage from './SearchPage';
 import PostPage from './PostPage';
 import ViewPostPage from './ViewPostPage';
+import LikesPage from './LikesPage';
 
 function Router() {
     return (
@@ -26,6 +27,7 @@ function Router() {
                             <Route path="/users/:username/followers" element={<FollowersPage />}/>
                             <Route path="/post" element={<PostPage />}/>
                             <Route path="/posts/:id" element={<ViewPostPage />}/>
+                            <Route path="/posts/:id/likes" element={<LikesPage />}/>
                             <Route path="*" element={<h1>Page Not Found</h1>} />
                         </Routes>
                     </AuthContextProvider>

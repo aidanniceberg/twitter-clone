@@ -31,6 +31,21 @@ const standardPost = (url: string, token: string, body: string = ""): Promise<bo
         });
 }
 
+const standardDelete = (url: string, token: string, body: string = ""): Promise<boolean> => {
+    return fetch(url, {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
+        body: body,
+    })
+        .then((response) => {
+            if (response.ok) return true;
+            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
+        });
+}
+
 export const getToken = (username: string, password: string): Promise<boolean> => {
     return fetch(`${AUTH_URL}/token`, {
         method: 'POST',
@@ -77,18 +92,7 @@ export const follow = (token: string, username: string, followee: string): Promi
 }
 
 export const unfollow = (token: string, username: string, followee: string): Promise<boolean> => {
-    return fetch(`${API_URL}/users/${username}/following`, {
-        method: 'DELETE',
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-        credentials: "include",
-        body: followee,
-    })
-        .then((response) => {
-            if (response.ok) return true;
-            throw new Error(`Encountered a ${response.status} error: ${response.json()}`);
-        });
+    return standardDelete(`${API_URL}/users/${username}/following`, token, followee);
 }
 
 export const getFollowings = (token: string, username: string): Promise<User[]> => {
@@ -136,5 +140,21 @@ export const editProfile = (token: string, first_name: string | null = null, las
 }
 
 export const getPost = (token: string, id: number): Promise<Post> => {
-    return standardGetJSON(`${API_URL}/posts/${id}`, token);
+    return standardGetJSON<Post>(`${API_URL}/posts/${id}`, token);
+}
+
+export const getUserLikes = (token: string, id: number, username: string): Promise<boolean> => {
+    return standardGetJSON<boolean>(`${API_URL}/posts/${id}/likes/${username}`, token);
+}
+
+export const getLikes = (token: string, id: number): Promise<User[]> => {
+    return standardGetJSON<User[]>(`${API_URL}/posts/${id}/likes`, token);
+}
+
+export const like = (token: string, id: number, username: string): Promise<boolean> => {
+    return standardPost(`${API_URL}/posts/${id}/likes`, token);
+}
+
+export const unlike = (token: string, id: number, username: string): Promise<boolean> => {
+    return standardDelete(`${API_URL}/posts/${id}/likes`, token);
 }

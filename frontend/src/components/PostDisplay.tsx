@@ -2,6 +2,7 @@ import './style.css';
 import { Post } from '../types';
 import { Link } from 'react-router-dom';
 import { dateToAgo } from '../utils'
+import LikeDisplay from './LikeDisplay';
 
 type PostDisplayProps = {
     post: Post;
@@ -34,6 +35,11 @@ function PostDisplay({post, showChildren = false, depth = 0}: PostDisplayProps) 
                         :
                         <p>{post.content}</p>
                     }
+                </div>
+                <div className='flex-break'></div>
+                {generateBuffer()}
+                <div className='post-meta-wrapper'>
+                    <LikeDisplay id={post.id} likes={post.likes} />
                 </div>
             </div>
             {
