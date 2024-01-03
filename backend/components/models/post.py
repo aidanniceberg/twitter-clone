@@ -24,4 +24,5 @@ class Post(BaseModel):
     created_at: Optional[datetime] = None
     response_to: Optional[int] = None
     responses: Optional[List["Post"]] = None
-    likes: int
+    likes: Optional[int]
+    comments: Optional[int]
