@@ -54,6 +54,7 @@ def get_post_by_id(id: int, responses_valid: bool = False, responses_included: b
                 response_to=post.response_to,
                 responses=get_responses(post.id) if responses_included else None,
                 likes=get_like_count(post.id),
+                comments=get_comment_count(post.id),
             )
     except NoResultFound:
         return None
@@ -81,6 +82,7 @@ def get_responses(parent_id: int) -> List[Post]:
                     response_to=post.response_to,
                     responses=get_responses(post.id),
                     likes=get_like_count(post.id),
+                    comments=get_comment_count(post.id),
                 )
                 for post in posts
             ]
@@ -130,3 +132,21 @@ def get_like_count(id: int) -> int:
     except Exception as e:
         raise Exception(f"An error occurred retrieving likes from the db: {e}")
 
+def get_comment_count(id: int) -> int:
+    """
+    Given a post id, gets the number of comments
+    Note: only counts direct comments
+    Replies to comments are not included in the count (may change later)
+
+    :param id: post id
+    :return count
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = (
+                select(func.count(PostTbl.id))
+                .where(PostTbl.response_to == id)
+            )
+            return session.execute(stmt).scalar()
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving comments from the db: {e}")
