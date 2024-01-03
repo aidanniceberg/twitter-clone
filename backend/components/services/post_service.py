@@ -3,6 +3,7 @@ from typing import List, Optional
 from components.daos import followings_dao, post_dao
 from components.models.enum.sort_by import SortBy
 from components.models.post import Post, PostBasic
+from components.models.user import UserBasic
 from components.utils.feed_builder import FeedBuilder
 
 def create_post(post: PostBasic) -> None:

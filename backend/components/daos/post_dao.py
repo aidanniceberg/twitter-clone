@@ -1,11 +1,12 @@
 from datetime import datetime
 from typing import List, Optional
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import NoResultFound
 
 from components.models.post import Post, PostBasic
 from components.models.orm.post import PostTbl
+from components.models.orm.post_like import PostLikeTbl
 from components.db import get_engine
 
 _engine = get_engine()
@@ -52,6 +53,7 @@ def get_post_by_id(id: int, responses_valid: bool = False, responses_included: b
                 created_at=post.created_at,
                 response_to=post.response_to,
                 responses=get_responses(post.id) if responses_included else None,
+                likes=get_like_count(post.id),
             )
     except NoResultFound:
         return None
@@ -78,6 +80,7 @@ def get_responses(parent_id: int) -> List[Post]:
                     created_at=post.created_at,
                     response_to=post.response_to,
                     responses=get_responses(post.id),
+                    likes=get_like_count(post.id),
                 )
                 for post in posts
             ]
@@ -109,3 +112,21 @@ def get_post_ids_by_users(usernames: Optional[List[str]] = None, posts: bool = T
             return [post.id for post in posts]
     except Exception as e:
         raise Exception(f"An error occurred retrieving a response from the db: {e}")
+
+def get_like_count(id: int) -> int:
+    """
+    Given a post id, gets the number of likes
+
+    :param id: post id
+    :return list of usernames
+    """
+    try:
+        with Session(_engine) as session:
+            stmt = (
+                select(func.count(PostLikeTbl.username))
+                .where(PostLikeTbl.post_id == id)
+            )
+            return session.execute(stmt).scalar()
+    except Exception as e:
+        raise Exception(f"An error occurred retrieving likes from the db: {e}")
+
