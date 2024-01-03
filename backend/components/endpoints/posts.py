@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated, List
 
 from components.models.post import Post, PostBasic
-from components.models.user import AuthUser
-from components.services import auth_service, post_service
+from components.models.user import AuthUser, UserBasic
+from components.services import auth_service, like_service, post_service
 from components.utils.exceptions import NotFoundException
 
 post = APIRouter(prefix='/posts', tags=['Post'])
@@ -30,3 +30,27 @@ def get_post_by_id(id: int, auth: AuthDep) -> Post:
         raise HTTPException(status_code=404, detail=str(nfe))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@post.get("/{id}/likes")
+def get_likes(id: int, auth: AuthDep) -> List[UserBasic]:
+    try:
+        return like_service.get_likes(id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@post.post("/{id}/likes")
+def like(id: int, auth: AuthDep) -> None:
+    try:
+        like_service.create_like(id, auth.username)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@post.delete("/{id}/likes")
+def unlike(id: int, auth: AuthDep) -> None:
+    try:
+        like_service.remove_like(id, auth.username)
+    except NotFoundException as nfe:
+        raise HTTPException(status_code=404, detail=str(nfe))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
